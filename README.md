@@ -35,52 +35,58 @@ A modern, responsive todo application built with Next.js, TypeScript, and Tailwi
 ### Installation
 
 1. Clone the repository:
-\`\`\`bash
+```bash
 git clone <repository-url>
 cd todo-app
-\`\`\`
+```
 
 2. Install dependencies:
-\`\`\`bash
+```bash
 npm install
 # or
 yarn install
 # or
 pnpm install
-\`\`\`
+```
 
 3. Run the development server:
-\`\`\`bash
+```bash
 npm run dev
 # or
 yarn dev
 # or
 pnpm dev
-\`\`\`
+```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Project Structure
 
-\`\`\`
+```
 todo-app/
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx          # Root layout
-│   │   ├── page.tsx            # Main todo app page
-│   │   └── globals.css         # Global styles
-│   ├── components/
-│   │   ├── ui/                 # shadcn/ui components
-│   │   ├── AddTodo.tsx         # Add new todo form
-│   │   └── TodoItem.tsx        # Individual todo item
-│   └── lib/
-│       ├── types.ts            # TypeScript type definitions
-│       └── utils.ts            # Utility functions
+├── app/
+│   ├── layout.tsx              # Root layout (default)
+│   ├── page.tsx                # Main todo app page
+│   └── globals.css             # Global styles (default)
+├── components/
+│   ├── ui/                     # shadcn/ui components (default)
+│   │   ├── button.tsx          # Button component
+│   │   ├── input.tsx           # Input component
+│   │   ├── checkbox.tsx        # Checkbox component
+│   │   ├── tabs.tsx            # Tabs component
+│   │   └── ...                 # Other UI components
+│   └── TodoItem.tsx            # Individual todo item component
+├── lib/
+│   ├── types.ts                # TypeScript type definitions
+│   └── utils.ts                # Utility functions (default)
+├── hooks/                      # Custom hooks (default)
 ├── public/                     # Static assets
 ├── tailwind.config.ts          # Tailwind CSS configuration
-├── next.config.js              # Next.js configuration
-└── package.json                # Dependencies and scripts
-\`\`\`
+├── next.config.mjs             # Next.js configuration
+├── package.json                # Dependencies and scripts
+├── tsconfig.json               # TypeScript configuration
+└── README.md                   # This file
+```
 
 ## Usage
 
@@ -91,6 +97,8 @@ todo-app/
 ### Managing Todos
 - **Complete**: Click the checkbox next to any todo
 - **Edit**: Click on the todo text to edit inline
+  - Press Enter or click the ✓ button to save
+  - Press Escape or click the ✗ button to cancel
 - **Delete**: Click the trash icon to remove a todo
 - **Filter**: Use the tabs to view All, Active, or Completed todos
 - **Clear Completed**: Use the "Clear completed" button to remove all completed todos
@@ -102,14 +110,14 @@ All todos are automatically saved to your browser's local storage, so your data 
 
 ### CRUD Operations
 
-1. **Create**: Add new todos using the \`AddTodo\` component
+1. **Create**: Add new todos using the inline form in the main page
 2. **Read**: Display todos with filtering capabilities
-3. **Update**: Inline editing with save/cancel options
+3. **Update**: Inline editing with save/cancel options in TodoItem component
 4. **Delete**: Individual and bulk delete operations
 
 ### State Management
-- Uses React's \`useState\` for local state management
-- \`useEffect\` hooks for local storage synchronization
+- Uses React's `useState` for local state management
+- `useEffect` hooks for local storage synchronization
 - No external state management library needed for this scope
 
 ### TypeScript Integration
@@ -122,89 +130,46 @@ All todos are automatically saved to your browser's local storage, so your data 
 - Adaptive layout for different screen sizes
 - Touch-friendly interface elements
 
-## Customization
+## Component Architecture
 
-### Styling
-Modify the Tailwind classes in components to change the appearance:
-- Colors: Update color classes (e.g., \`bg-blue-50\`, \`text-gray-600\`)
-- Spacing: Adjust padding and margin classes
-- Layout: Modify grid and flexbox classes
+### Main Components
 
-### Functionality
-- Add due dates by extending the \`Todo\` interface
-- Implement categories or tags
-- Add priority levels
-- Integrate with a backend API
+1. **app/page.tsx** - Main application component
+   - Manages global state for todos
+   - Handles all CRUD operations
+   - Implements filtering logic (All, Active, Completed)
+   - Local storage integration
+   - Inline form for adding new todos
+   - Statistics display (active/completed counts)
 
-## Browser Support
+2. **components/TodoItem.tsx** - Individual todo item
+   - Inline editing functionality
+   - Toggle completion status
+   - Delete individual todos
+   - Keyboard shortcuts (Enter to save, Escape to cancel)
+   - Visual feedback for completed items
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+3. **lib/types.ts** - TypeScript definitions
+   - Todo interface definition
+   - Type safety for all components
 
-## Contributing
+### Key Functions
 
-1. Fork the repository
-2. Create a feature branch: \`git checkout -b feature-name\`
-3. Commit changes: \`git commit -am 'Add feature'\`
-4. Push to branch: \`git push origin feature-name\`
-5. Submit a pull request
+- `addTodo(text: string)` - Creates new todo with unique ID
+- `updateTodo(id: string, text: string)` - Updates existing todo text
+- `toggleTodo(id: string)` - Toggles completion status
+- `deleteTodo(id: string)` - Removes single todo
+- `clearCompleted()` - Removes all completed todos
 
-## License
+## File Details
 
-This project is open source and available under the [MIT License](LICENSE).
+### app/page.tsx
+- Main component with all todo logic
+- State management for todos array
+- Filter state management
+- Local storage integration
+- Form handling for new todos
+- Statistics calculation
 
-## Deployment
-
-### Vercel (Recommended)
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Deploy with zero configuration
-
-### Other Platforms
-This app can be deployed to any platform that supports Next.js:
-- Netlify
-- Railway
-- Heroku
-- AWS Amplify
-
-## Future Enhancements
-
-- [ ] User authentication
-- [ ] Cloud synchronization
-- [ ] Due dates and reminders
-- [ ] Categories and tags
-- [ ] Priority levels
-- [ ] Dark mode toggle
-- [ ] Drag and drop reordering
-- [ ] Export/import functionality
-- [ ] Search functionality
-- [ ] Keyboard shortcuts
-
-## Support
-
-If you encounter any issues or have questions, please open an issue on the GitHub repository.
-\`\`\`
-
-This todo app includes all the CRUD operations you requested:
-
-**Key Features:**
-- **Create**: Add new todos with the input form
-- **Read**: Display todos with filtering (All, Active, Completed)
-- **Update**: Inline editing by clicking on todo text
-- **Delete**: Individual delete buttons and bulk "Clear completed"
-- **Toggle**: Mark todos as complete/incomplete
-- **Persistence**: Local storage saves your data
-- **Responsive**: Works on all device sizes
-
-**Technical Implementation:**
-- Uses Next.js App Router with TypeScript [^1]
-- Client components for interactivity
-- shadcn/ui components for consistent UI
-- Tailwind CSS for responsive styling
-- Local storage for data persistence
-- Proper TypeScript types for type safety
-
-The app is fully functional and ready to use. You can add todos, edit them inline, mark them complete, filter by status, and delete individual or completed todos. All data persists in local storage between sessions.
-#
+### components/TodoItem.tsx
+-
